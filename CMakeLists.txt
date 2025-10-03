@@ -53,10 +53,15 @@ if(BUILD_EXAMPLES)
     target_link_libraries(batch_processing PRIVATE databento-cpp)
     target_compile_options(batch_processing PRIVATE -O3 -march=native)
     
+    add_executable(standalone_test examples/standalone_test.cpp)
+    target_link_libraries(standalone_test PRIVATE databento-cpp)
+    target_compile_options(standalone_test PRIVATE -O3 -march=native)
+    
     message(STATUS "Examples will be built:")
     message(STATUS "  - simple_mbo_parsing")
     message(STATUS "  - ultra_fast_parsing")
     message(STATUS "  - batch_processing")
+    message(STATUS "  - standalone_test (self-contained)")
 endif()
 
 # ============================================================================

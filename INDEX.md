@@ -7,6 +7,13 @@
 
 ## 🚀 New User? START HERE
 
+### 0️⃣ Want to Run It NOW?
+**[RUN_NOW.md](RUN_NOW.md)** - Immediate action guide ⚡
+- Quick commands to build and test
+- Works without external DBN files
+- Windows and Linux instructions
+- **START HERE if you want to see it work immediately**
+
 ### 1️⃣ Read This First
 **[COMPLETION_SUMMARY.md](COMPLETION_SUMMARY.md)** - 5-minute overview
 - What's included
@@ -14,14 +21,21 @@
 - How to use
 - Quick start commands
 
-### 2️⃣ Then Try This
+### 2️⃣ Then Build It
+**[BUILD_INSTRUCTIONS.md](BUILD_INSTRUCTIONS.md)** - Detailed build guide
+- Linux/WSL instructions
+- Windows instructions
+- Troubleshooting
+- Verification steps
+
+### 3️⃣ Learn To Use It
 **[QUICK_START.md](QUICK_START.md)** - 10-minute guide
 - Installation steps
 - First C++ example
 - First Python example
 - Common issues
 
-### 3️⃣ Dive Deeper
+### 4️⃣ Dive Deeper
 **[README.md](README.md)** - Complete documentation
 - Full feature list
 - Performance benchmarks
