@@ -1,0 +1,5 @@
+add_executable(historical_example historical_example.cpp)
+target_link_libraries(historical_example databento)
+
+add_executable(live_example live_example.cpp)
+target_link_libraries(live_example databento)
