@@ -1,6 +1,9 @@
 #!/bin/bash
 # Build script for databento-cpp-fast
 # Compiles library, examples, tests, and benchmarks
+#
+# Usage: ./build.sh
+# Run from any directory - automatically uses script location
 
 set -e  # Exit on error
 
@@ -15,7 +18,7 @@ YELLOW='\033[1;33m'
 RED='\033[0;31m'
 NC='\033[0m' # No Color
 
-# Get script directory
+# Get script directory (works even if called from elsewhere)
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$SCRIPT_DIR"
 

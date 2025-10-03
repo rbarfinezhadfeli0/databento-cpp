@@ -186,6 +186,6 @@ PYBIND11_MODULE(databento_cpp, m) {
   // ============================================================================
   
   m.attr("__version__") = "1.0.0";
-  m.attr("__author__") = "databento-cpp-fast contributors";
+  m.attr("__author__") = "databento-fast contributors";
   m.attr("__description__") = "Ultra-fast alternative DBN parser (200M+ rec/s)";
 }

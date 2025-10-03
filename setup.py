@@ -1,11 +1,15 @@
 """
-setup.py for databento-cpp Python bindings
+setup.py for databento-fast Python bindings
 
 Install with:
-    pip install .
+    pip install databento-fast
 
 Or for development:
     pip install -e .
+
+Or build and publish:
+    python -m build
+    python -m twine upload dist/*
 """
 
 from setuptools import setup
@@ -33,14 +37,19 @@ with open(os.path.join(here, "README.md"), "r", encoding="utf-8") as f:
     long_description = f.read()
 
 setup(
-    name="databento-cpp-fast",
+    name="databento-fast",
     version=__version__,
-    author="databento-cpp-fast contributors",
+    author="databento-fast contributors",
     author_email="",
-    description="Ultra-fast Databento DBN parser (200M+ records/sec) - Alternative to official databento-cpp",
+    description="Ultra-fast Databento DBN parser (200M+ records/sec) with C++ and Python",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/YOUR_USERNAME/databento-cpp",
+    url="https://github.com/rbarfinezhadfeli0/databento-fast",
+    project_urls={
+        "Bug Tracker": "https://github.com/rbarfinezhadfeli0/databento-fast/issues",
+        "Documentation": "https://github.com/rbarfinezhadfeli0/databento-fast",
+        "Source Code": "https://github.com/rbarfinezhadfeli0/databento-fast",
+    },
     ext_modules=ext_modules,
     cmdclass={"build_ext": build_ext},
     zip_safe=False,
@@ -50,6 +59,7 @@ setup(
     ],
     extras_require={
         "dev": ["pytest", "numpy", "pandas"],
+        "databento": ["databento>=0.30.0"],
     },
     classifiers=[
         "Development Status :: 4 - Beta",
@@ -69,5 +79,5 @@ setup(
         "Operating System :: POSIX :: Linux",
         "Operating System :: MacOS",
     ],
-    keywords="databento market-data high-frequency-trading hft parsing performance",
+    keywords="databento market-data high-frequency-trading hft parsing performance cpp fast mbo",
 )

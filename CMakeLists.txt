@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.14)
-project(databento-cpp-fast VERSION 1.0.0 LANGUAGES CXX)
+project(databento-fast VERSION 1.0.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -169,7 +169,7 @@ install(FILES
 
 message(STATUS "")
 message(STATUS "========================================")
-message(STATUS "databento-cpp-fast Configuration")
+message(STATUS "databento-fast Configuration")
 message(STATUS "========================================")
 message(STATUS "Version:          ${PROJECT_VERSION}")
 message(STATUS "C++ Standard:     ${CMAKE_CXX_STANDARD}")

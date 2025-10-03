@@ -1,0 +1,153 @@
+name: Build and Test
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-linux:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        compiler: [gcc-11, clang-14]
+        build_type: [Release, Debug]
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y cmake build-essential
+        if [ "${{ matrix.compiler }}" == "clang-14" ]; then
+          sudo apt-get install -y clang-14
+        fi
+    
+    - name: Set compiler
+      run: |
+        if [ "${{ matrix.compiler }}" == "gcc-11" ]; then
+          echo "CC=gcc-11" >> $GITHUB_ENV
+          echo "CXX=g++-11" >> $GITHUB_ENV
+        else
+          echo "CC=clang-14" >> $GITHUB_ENV
+          echo "CXX=clang++-14" >> $GITHUB_ENV
+        fi
+    
+    - name: Configure CMake
+      run: |
+        mkdir build
+        cd build
+        cmake .. -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
+                 -DBUILD_TESTS=ON \
+                 -DBUILD_EXAMPLES=ON \
+                 -DBUILD_BENCHMARKS=ON
+    
+    - name: Build
+      run: |
+        cd build
+        make -j$(nproc)
+    
+    - name: Run tests
+      run: |
+        cd build
+        ctest --output-on-failure --verbose
+    
+    - name: Run standalone test
+      run: |
+        cd build
+        ./standalone_test
+
+  build-macos:
+    runs-on: macos-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Install dependencies
+      run: |
+        brew install cmake
+    
+    - name: Configure CMake
+      run: |
+        mkdir build
+        cd build
+        cmake .. -DCMAKE_BUILD_TYPE=Release \
+                 -DBUILD_TESTS=ON \
+                 -DBUILD_EXAMPLES=ON \
+                 -DBUILD_BENCHMARKS=ON
+    
+    - name: Build
+      run: |
+        cd build
+        make -j$(sysctl -n hw.ncpu)
+    
+    - name: Run tests
+      run: |
+        cd build
+        ctest --output-on-failure --verbose
+    
+    - name: Run standalone test
+      run: |
+        cd build
+        ./standalone_test
+
+  python-bindings:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        python-version: ['3.8', '3.9', '3.10', '3.11']
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+    
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y cmake build-essential
+        python -m pip install --upgrade pip
+        pip install pybind11 pytest numpy
+    
+    - name: Build C++ library
+      run: |
+        ./build.sh
+    
+    - name: Install Python bindings
+      run: |
+        pip install -e .
+    
+    - name: Test Python import
+      run: |
+        python -c "import databento_cpp; print(databento_cpp.__version__)"
+    
+    - name: Run Python tests
+      run: |
+        python -c "import databento_cpp; parser = databento_cpp.DbnParser; print('✅ Python bindings work!')"
+
+  lint:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Install clang-format
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y clang-format-14
+    
+    - name: Check formatting (if .clang-format exists)
+      run: |
+        if [ -f .clang-format ]; then
+          find include src -name '*.hpp' -o -name '*.cpp' | xargs clang-format-14 --dry-run --Werror
+        else
+          echo "No .clang-format file, skipping format check"
+        fi
+
